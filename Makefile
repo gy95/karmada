@@ -1,6 +1,5 @@
 GOOS ?= $(shell go env GOOS)
-GOPATH ?= $(shell go env GOPATH)
-export GOPATH
+export GOPATH ?= $(shell go env GOPATH)
 SOURCES := $(shell find . -type f  -name '*.go')
 
 # Git information
