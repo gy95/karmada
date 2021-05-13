@@ -29,6 +29,7 @@ function util::install_tools() {
 	temp_path=$(mktemp -d)
 	pushd "${temp_path}" >/dev/null
 	GO111MODULE=on go get "${package}"@"${version}"
+	export PATH=$PATH:$GOPATH/bin
 	popd >/dev/null
 	rm -rf "${temp_path}"
 }
