@@ -144,6 +144,8 @@ func (g *CommandGetOptions) Complete(cmd *cobra.Command, args []string) error {
 	if g.KubeConfig == "" {
 		g.KubeConfig = defaultKubeConfig
 	}
+
+	fmt.Printf("Kubeconfig file name is %q", g.KubeConfig)
 	if !Exists(g.KubeConfig) {
 		return ErrEmptyConfig
 	}
@@ -545,7 +547,9 @@ func setColumnDefinition(table *metav1.Table) {
 // Exists determine if path exists
 func Exists(path string) bool {
 	if _, err := os.Stat(path); err != nil {
+		fmt.Printf("file %s Exit error: %v", path, err)
 		return os.IsExist(err)
 	}
+	fmt.Printf("file %s is Exit", path)
 	return true
 }
