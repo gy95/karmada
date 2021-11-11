@@ -118,6 +118,7 @@ type CommandGetOptions struct {
 
 // NewCommandGetOptions returns a GetOptions with default chunk size 500.
 func NewCommandGetOptions(parent string, streams genericclioptions.IOStreams) *CommandGetOptions {
+	fmt.Printf("env variable is %s\n", os.Getenv("KUBECONFIG"))
 	return &CommandGetOptions{
 		PrintFlags: get.NewGetPrintFlags(),
 
