@@ -30,10 +30,8 @@ func IsBindingReplicasChanged(bindingSpec *workv1alpha2.ResourceBindingSpec, str
 		return false
 	}
 	if strategy.ReplicaSchedulingType == policyv1alpha1.ReplicaSchedulingTypeDivided {
-		replicasSum := int32(0)
-		for _, targetCluster := range bindingSpec.Clusters {
-			replicasSum += targetCluster.Replicas
-		}
+		replicasSum := GetSumOfReplicas(bindingSpec.Clusters)
+
 		return replicasSum != bindingSpec.Replicas
 	}
 	return false
@@ -60,12 +58,10 @@ func ConvertToClusterNames(clusters []workv1alpha2.TargetCluster) sets.String {
 
 // DivideReplicasByTargetCluster will divide the sum number by the weight of target clusters.
 func DivideReplicasByTargetCluster(clusters []workv1alpha2.TargetCluster, sum int32) []workv1alpha2.TargetCluster {
-	sumWeight := int32(0)
+	sumWeight := GetSumOfReplicas(clusters)
 	allocatedReplicas := int32(0)
 	res := make([]workv1alpha2.TargetCluster, len(clusters))
-	for i := range clusters {
-		sumWeight += clusters[i].Replicas
-	}
+
 	for i := range clusters {
 		res[i].Name = clusters[i].Name
 		if sumWeight > 0 {
